@@ -1,0 +1,85 @@
+@page "/usuario"
+<div class="grid grid-cols-4 gap-4 p-4 bg-gray-400 min-h-screen">
+    @foreach (Usuario usuario in lstUsuarios)
+    {
+        <div class="flex flex-col justify-center border-2 w-10vw rounded-md p-4 m-2 gap-2">
+            <h2 class="text-bold text-2xl">@usuario.Nombre</h2>
+            <p><b>Descripción: </b>@usuario.CodigoUnivalle</p>
+            <p class="font-bold text-red-500 p-3">@usuario.Sexo en toda la run</p>
+        </div>
+    }
+</div>
+ 
+ 
+@code {
+private List<Usuario> lstUsuarios = new()
+{
+    new Usuario(
+        "Joaquin",
+        "202310001",
+        "Masculino",
+        21),
+ 
+    new Usuario(
+        "Maria Fernanda",
+        "202310002",
+        "Femenino",
+        20),
+ 
+    new Usuario(
+        "Carlos Alberto",
+        "202310003",
+        "Masculino",
+        23),
+ 
+    new Usuario(
+        "Valeria",
+        "202310004",
+        "Femenino",
+        19),
+ 
+    new Usuario(
+        "Diego",
+        "202310005",
+        "Masculino",
+        22),
+ 
+    new Usuario(
+        "Camila",
+        "202310006",
+        "Femenino",
+        24),
+ 
+    new Usuario(
+        "Sofia",
+        "202310007",
+        "Femenino",
+        18),
+ 
+    new Usuario(
+        "Andres",
+        "202310008",
+        "Masculino",
+        25),
+};
+
+public class Usuario
+    {
+        public string? Nombre { get; set; }
+        public string? CodigoUnivalle { get; set; }
+        public string? Sexo { get; set; }
+        public int Edad { get; set; }
+ 
+        public Usuario(
+            string nombre,
+            string codigoUnivalle,
+            string sexo,
+            int edad)
+        {
+            Nombre = nombre;
+            CodigoUnivalle = codigoUnivalle;
+            Sexo = sexo;
+            Edad = edad;
+        }
+    }
+}
