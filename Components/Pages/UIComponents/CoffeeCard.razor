@@ -1,11 +1,24 @@
 <div class="flex flex-col justify-center border-2 w-10vw rounded-md p-4 m-2 gap-2">
-            <img src="@Imagen" class="w-full h-1/2 object-cover rounded-md" />
-            <h2 class="text-bold text-2xl">@NombreCafe</h2>
-            <p><b>Descripción: </b>@DescripcionCafe</p>
-            <p class="font-bold text-fuchsia-600 bg-green-600 rounded-xl p-3">@PrecioCafe Bs.</p>
+            <input type="text" class="border-2" @bind="Imagen" disabled="@(!ModoEdicion)" />
+            <img src="@Imagen" class="w-full h-1/2 object-cover rounded-md" disabled="@(!ModoEdicion)" />
+            <input class="text-bold text-2xl" @bind="NombreCafe" disabled="@(!ModoEdicion)" />
+            <input class="text-gray-600" @bind="DescripcionCafe" disabled="@(!ModoEdicion)" />
+            <input class="font-bold text-white bg-green-600 rounded-xl p-3" type="number" @bind="PrecioCafe" disabled="@(!ModoEdicion)" />
+
+            @if(ModoEdicion)
+            {
+                <button class="font-bold text-white bg-blue-600 rounded-xl p-3" @onclick="CambiarModoEdicion">Guardar</button>
+            }
+            else
+            {
+                <button class="font-bold text-white bg-blue-600 rounded-xl p-3" @onclick="CambiarModoEdicion">Editar</button>
+            }
+            <button class="font-bold text-white bg-blue-600 rounded-xl p-3">Eliminar</button>
+            <button class="font-bold text-white bg-yellow-600 rounded-xl p-3">Guardar</button>
         </div>
  
         @code{
+            private bool ModoEdicion = false;
             [Parameter]
             public string? Imagen {get;set;}
             [Parameter]
@@ -14,4 +27,11 @@
             public string? DescripcionCafe {get;set;}
             [Parameter]
             public decimal PrecioCafe {get;set;}
+
+
+            private void CambiarModoEdicion()
+            {
+                ModoEdicion = !ModoEdicion;
+                StateHasChanged();
+            }
         }
