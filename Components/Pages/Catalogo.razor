@@ -5,19 +5,19 @@
 @inject ApplicationAuthDbContext _dbService
 
 <EditForm FormName="agregar-cafe" Model="@newCafe" OnSubmit="AgregarCafe">
-    <InputText @bind-Value="newCafe.Imagen" class="border-2 px-2" aria-placeholder="introduce la url de la imagen"/>
-    <InputText @bind-Value="newCafe.NombreCafe" class="border-2 px-2" aria-placeholder="introduce el nombre del café"/>
-    <InputText @bind-Value="newCafe.DescripcionCafe" class="border-2 px-2" aria-placeholder="introduce la descripción del café"/>
-    <InputNumber @bind-Value="newCafe.PrecioCafe" class="border-2 px-2" aria-placeholder="introduce el precio del café"/>
-
-<button type="submit">Guardar</button>
+    <InputText @bind-Value="newCafe.Imagen" class="border-2 px-2" placeholder="introduce la url de la imagen"/>
+    <InputText @bind-Value="newCafe.NombreCafe" class="border-2 px-2" placeholder="introduce el nombre del cafe"/>
+    <InputText @bind-Value="newCafe.DescripcionCafe" class="border-2 px-2" placeholder="introduce la descripcion del cafe"/>
+    <InputNumber @bind-Value="@newCafe.PrecioCafe" class="border-2 px-2" placeholder="introduce el precio del cafe"/>
+ 
+    <button type="submit">Guardar</button>
 </EditForm>
  
 <div class="grid grid-cols-4 gap-4 p-4">
     @foreach (Cafe cafe in lstCafes)
     {
-        <CoffeeCard Imagen="@cafe.Imagen" NombreCafe="@cafe.NombreCafe" DescripcionCafe="@cafe.DescripcionCafe"
-                    PrecioCafe="@cafe.PrecioCafe"></CoffeeCard>
+        <CoffeeCard Id="@cafe.Id" Imagen="@cafe.Imagen" NombreCafe="@cafe.NombreCafe" DescripcionCafe="@cafe.DescripcionCafe"
+                    PrecioCafe="@cafe.PrecioCafe" EnviarNotificacionActualizacion="ActualizarProducto"></CoffeeCard>
     }
 </div>
  
@@ -33,7 +33,25 @@
     {
         _dbService.Cafes.Add(newCafe);
         _dbService.SaveChanges();
-        newCafe = new ();
+        newCafe = new();
+        return Task.CompletedTask;
+    }
+ 
+    private Task ActualizarProducto(Cafe cafeEditado)
+    {
+        Cafe cafeParaEditar = _dbService.Cafes.FirstOrDefault(cafe => cafe.Id == cafeEditado.Id);
+        Console.WriteLine(cafeEditado.Id);
+        Console.WriteLine(cafeEditado.NombreCafe);
+        Console.WriteLine(cafeEditado.DescripcionCafe);
+        Console.WriteLine(cafeEditado.PrecioCafe);
+ 
+        cafeParaEditar.NombreCafe = cafeEditado.NombreCafe;
+        cafeParaEditar.PrecioCafe = cafeEditado.PrecioCafe;
+        cafeParaEditar.DescripcionCafe = cafeEditado.DescripcionCafe;
+ 
+        _dbService.SaveChanges();
+ 
         return Task.CompletedTask;
     }
 }
+ 
